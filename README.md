@@ -39,3 +39,20 @@ A development container can be started with the following command:
 cd vanilla-zephyr
 ./run.sh <path-to-top-west-dir>
 ```
+
+## Making a new release
+
+Take the following steps to make a new release:
+
+1. Make sure that `Unreleased` section in the `CHANGELOG.md` is populated with relevant new
+   additions.
+2. Go under `Actions` tab and select `Create a new release` section in the left sidebar.
+3. Click `Run workflow` button on the right and write in the version tag that you want to make a
+   release for.
+
+After that:
+
+- the new GitHub release will be created and
+- CI will build all configured Zephyr images and push them to our public [Container registry].
+
+[Container registry]: https://github.com/orgs/IRNAS/packages
