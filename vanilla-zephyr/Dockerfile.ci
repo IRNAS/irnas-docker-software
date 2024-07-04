@@ -1,0 +1,148 @@
+FROM ubuntu:22.04
+
+ARG ZEPHYR_SDK_VERSION=0.16.8
+ARG ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk-${ZEPHYR_SDK_VERSION}
+ARG ZEPHYR_VERSION=v3.6.0
+ARG MCUBOOT_VERSION=a4eda30f5b0cfd0cf15512be9dcd559239dbfc91
+ARG ZEPHYR_TOOLCHAINS="-t arm-zephyr-eabi -t x86_64-zephyr-elf"
+ARG KITWARE_NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
+ENV KITWARE_NINJA_VERSION=$KITWARE_NINJA_VERSION
+ARG CCACHE_VERSION=4.9.1
+ENV CCACHE_VERSION=$CCACHE_VERSION
+ARG DOXYGEN_VERSION=1.9.4
+ENV DOXYGEN_VERSION=$DOXYGEN_VERSION
+ARG LLVM_VERSION=16
+ENV LLVM_VERSION=$LLVM_VERSION
+ARG WGET_ARGS="-q --show-progress --progress=bar:force:noscroll"
+
+# Set default shell during Docker image build to bash
+SHELL ["/bin/bash", "-c"]
+
+# Set non-interactive frontend for apt-get to skip any user confirmations
+ENV DEBIAN_FRONTEND=noninteractive
+
+# OS dependencies and packages
+RUN \
+  apt-get -y update && \
+  apt-get -y install --no-install-recommends \
+  ca-certificates \
+  ccache \
+  cmake \
+  device-tree-compiler \
+  device-tree-compiler \
+  dfu-util \
+  file \
+  gcc \
+  git \
+  gperf \
+  lcov \
+  libcairo2-dev \
+  libmagic1 \
+  libsdl2-dev \
+  libgirepository1.0-dev \
+  make \
+  ninja-build \
+  python3-dev \
+  python3-pip \
+  python3-setuptools \
+  python3-tk \
+  python3-wheel \
+  wget \
+  xz-utils
+
+# Install multi-lib gcc (x86 only)
+RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
+	apt-get install --no-install-recommends -y \
+		gcc-multilib \
+		g++-multilib \
+	; fi
+
+# Install i386 packages (x86 only)
+RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
+	dpkg --add-architecture i386 && \
+	apt-get -y update && \
+	apt-get -y upgrade && \
+	apt-get install --no-install-recommends -y \
+		libsdl2-dev:i386 libfuse-dev:i386 \
+	; fi
+
+# Install Python dependencies
+RUN python3 -m pip install -U --no-cache-dir pip && \
+	pip3 install -U --no-cache-dir wheel setuptools && \
+	pip3 install --no-cache-dir pygobject && \
+	pip3 install --no-cache-dir \
+		-r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/${ZEPHYR_VERSION}/scripts/requirements.txt \
+		-r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/${MCUBOOT_VERSION}/scripts/requirements.txt \
+		GitPython imgtool junitparser junit2html numpy protobuf PyGithub \
+		pylint sh statistics west Sphinx breathe \
+		nrf-regtool>=5.3.0 && \
+	pip3 check
+
+# Install Zephyr SDK
+RUN \
+  export sdk_file_name="zephyr-sdk-${ZEPHYR_SDK_VERSION}_linux-${HOSTTYPE}_minimal.tar.xz" \
+  && wget -q "https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZEPHYR_SDK_VERSION}/${sdk_file_name}" \
+  && mkdir -p ${ZEPHYR_SDK_INSTALL_DIR} \
+  && tar -xvf ${sdk_file_name} -C ${ZEPHYR_SDK_INSTALL_DIR} --strip-components=1 \
+  && ${ZEPHYR_SDK_INSTALL_DIR}/setup.sh -c ${ZEPHYR_TOOLCHAINS} \
+  && rm ${sdk_file_name}
+
+# Install Kitware ninja
+# NOTE: Pre-built Kitware ninja binaries are only available for x86_64 host.
+RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
+	wget ${WGET_ARGS} https://github.com/Kitware/ninja/releases/download/v${KITWARE_NINJA_VERSION}/ninja-${KITWARE_NINJA_VERSION}_x86_64-linux-gnu.tar.gz && \
+	tar xf ninja-${KITWARE_NINJA_VERSION}_x86_64-linux-gnu.tar.gz -C /opt && \
+	ln -s /opt/ninja-${KITWARE_NINJA_VERSION}_x86_64-linux-gnu/ninja /usr/local/bin && \
+	rm ninja-${KITWARE_NINJA_VERSION}_x86_64-linux-gnu.tar.gz \
+	; fi
+
+# Install ccache
+# NOTE: Pre-built ccache binaries are only available for x86_64 host.
+RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
+	wget ${WGET_ARGS} https://github.com/ccache/ccache/releases/download/v${CCACHE_VERSION}/ccache-${CCACHE_VERSION}-linux-x86_64.tar.xz && \
+	tar xf ccache-${CCACHE_VERSION}-linux-x86_64.tar.xz -C /opt && \
+	ln -s /opt/ccache-${CCACHE_VERSION}-linux-x86_64/ccache /usr/local/bin && \
+	rm ccache-${CCACHE_VERSION}-linux-x86_64.tar.xz \
+	; fi
+
+# Install Doxygen (x86 only)
+# NOTE: Pre-built Doxygen binaries are only available for x86_64 host.
+RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
+	wget ${WGET_ARGS} https://downloads.sourceforge.net/project/doxygen/rel-${DOXYGEN_VERSION}/doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz && \
+	tar xf doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz -C /opt && \
+	ln -s /opt/doxygen-${DOXYGEN_VERSION}/bin/doxygen /usr/local/bin && \
+	rm doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz \
+	; fi
+
+# Enable CI mode for East and Codechecker. That way East will search for
+# system provided Codechecker and use it.
+ENV EAST_CODECHECKER_CI_MODE=1
+
+RUN pip3 install east-tool codechecker
+
+# Install LLVM and Clang
+RUN apt-get -y update && \
+    apt-get install --no-install-recommends -y \
+	software-properties-common \
+	lsb-release \
+	gnupg
+
+RUN wget ${WGET_ARGS} https://apt.llvm.org/llvm.sh && \
+	chmod +x llvm.sh && \
+	./llvm.sh ${LLVM_VERSION} all && \
+	rm -f llvm.sh
+
+RUN apt-get remove -y --purge \
+    software-properties-common \
+    lsb-release \
+    gnupg
+
+# Create simlink for clang-16 and clang-tidy-16, otherwise Codechecker fails
+# to find them.
+RUN ln -s /usr/bin/clang-tidy-16 /usr/bin/clang-tidy && \
+    ln -s /usr/bin/clang-16 /usr/bin/clang
+
+# Clean up stale packages
+RUN apt-get clean -y && \
+	apt-get autoremove --purge -y && \
+	rm -rf /var/lib/apt/lists/*

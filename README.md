@@ -1,26 +1,41 @@
-# Irnas's Projects template
+# Irnas's repository for Zephyr Docker images
 
-IRNAS template for a GitHub repository. It comes with a
-[basic group](https://github.com/IRNAS/irnas-workflows-software/tree/main/workflow-templates/basic)
-of CI workflows for release automation.
+This repository contains images that are used for building the Zephyr projects. Dockerfiles that are
+used to build images are divided into folders, where each folder represents a set of specific
+images.
 
-## Checklist
+## Docker images
 
-### General GitHub setup
+### Vanilla Zephyr
 
-- [ ] Provide a concise and accurate description of your project in the GitHub "description" field.
-- [ ] Provide a concise and accurate description of your project in this `README.md` file, replace
-      the title.
-- [ ] Ensure that your project follows [repository naming scheme].
+This image is based on the official Zephyr image and contains the Zephyr SDK and Python dependencies
+to build Zephyr applications.
 
-### Tooling
+The `vanilla-zepyhr` folder contains two Dockerfiles:
 
-- [ ] Turn on `pre-commit` tool by running `pre-commit install`. If you do not have it yet, follow
-      instructions
-      [here](https://github.com/IRNAS/irnas-guidelines-docs/tree/main/tools/pre-commit).
+- `Dockerfile.ci` - A docker image which contains all tools needed to build Zephyr applications.
+  From Zephyr SDK toolchains it contains the following:
+  - `arm-zepyhr-eabi` - used for building applications for ARM Cortex-M.
+  - `x86_64-zephyr-elf` - used for building applications for `native_sim` board. This image is
+    suitable to be used in the CI.
+- `Dockerfile.dev` - A docker image which inherits from `Dockerfile.ci` image and contains some
+  configuration to make development inside the container easier.
 
-### Cleanup
+#### Building images
 
-- [ ] Remove any files and folders that your project doesn't require. This avoid possible multiple
-      definition issues down the road and keeps your project clean from redundant files.
-- [ ] As a final step delete this checklist and commit changes.
+Both images can be built with the help of the build scripts:
+
+```bash
+cd vanilla-zephyr
+./build_ci.sh
+./build_dev.sh
+```
+
+#### Developing Zephyr applications inside the containers
+
+A development container can be started with the following command:
+
+```bash
+cd vanilla-zephyr
+./run.sh <path-to-top-west-dir>
+```

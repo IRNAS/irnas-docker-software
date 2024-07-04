@@ -1,0 +1,11 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ARG UID=1000
+ARG GID=1000
+
+# Create 'user' account
+RUN useradd -l -m -s /bin/bash -u $UID user
+
+# Make 'user' default on launch
+USER user
