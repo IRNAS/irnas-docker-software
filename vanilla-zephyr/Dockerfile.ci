@@ -29,7 +29,6 @@ RUN \
   ccache \
   cmake \
   device-tree-compiler \
-  device-tree-compiler \
   dfu-util \
   file \
   gcc \
@@ -118,7 +117,7 @@ RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
 # system provided Codechecker and use it.
 ENV EAST_CODECHECKER_CI_MODE=1
 
-RUN pip3 install east-tool codechecker
+RUN pip3 install --no-cache-dir east-tool codechecker
 
 # Install LLVM and Clang
 RUN apt-get -y update && \
