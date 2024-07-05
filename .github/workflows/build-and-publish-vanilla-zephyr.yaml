@@ -1,9 +1,11 @@
 name: Build and publish a Vanilla Zephyr Docker images
 
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_call:
+    inputs:
+      release_version:
+        required: true
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -37,18 +39,6 @@ jobs:
           username: ${{github.actor}}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata for CI image
-        id: meta-ci
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-ci
-
-      - name: Extract metadata for Dev image
-        id: meta-dev
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-dev
-
       - name: Build and push CI image
         id: push-ci
         uses: docker/build-push-action@v5
@@ -56,8 +46,9 @@ jobs:
           file: ./vanilla-zephyr/Dockerfile.ci
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ steps.meta-ci.outputs.tags }}
-          labels: ${{ steps.meta-ci.outputs.labels }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-ci:${{ inputs.release_version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-ci:latest
           build-args: |
             ZEPHYR_VERSION=${{ matrix.variant.zephyr_version }}
             MCUBOOT_VERSION=${{ matrix.variant.mcuboot_version }}
@@ -69,8 +60,9 @@ jobs:
           file: ./vanilla-zephyr/Dockerfile.dev
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ steps.meta-dev.outputs.tags }}
-          labels: ${{ steps.meta-dev.outputs.labels }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-dev:${{ inputs.release_version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-dev:latest
           build-args: |
             ZEPHYR_VERSION=${{ matrix.variant.zephyr_version }}
             MCUBOOT_VERSION=${{ matrix.variant.mcuboot_version }}

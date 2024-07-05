@@ -14,7 +14,6 @@ env:
 jobs:
   update-changelog:
     runs-on: ubuntu-22.04
-    # runs-on: self-hosted
 
     steps:
       - name: Checkout Repository
@@ -61,5 +60,11 @@ jobs:
   call-publish-release:
     needs: update-changelog
     uses: ./.github/workflows/publish-release.yaml
+    with:
+      release_version: ${{ inputs.version }}
+
+  call-build-publish:
+    needs: update-changelog
+    uses: ./.github/workflows/build-and-publish-vanilla-zephyr.yaml
     with:
       release_version: ${{ inputs.version }}
