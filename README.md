@@ -14,10 +14,9 @@ to build Zephyr applications.
 The `vanilla-zepyhr` folder contains two Dockerfiles:
 
 - `Dockerfile.ci` - A docker image which contains all tools needed to build Zephyr applications.
-  From Zephyr SDK toolchains it contains the following:
+  This image is suitable to be used in the CI. From Zephyr SDK it contains the following toolchains:
   - `arm-zepyhr-eabi` - used for building applications for ARM Cortex-M.
-  - `x86_64-zephyr-elf` - used for building applications for `native_sim` board. This image is
-    suitable to be used in the CI.
+  - `x86_64-zephyr-elf` - used for building applications for `native_sim` board.
 - `Dockerfile.dev` - A docker image which inherits from `Dockerfile.ci` image and contains some
   configuration to make development inside the container easier.
 
