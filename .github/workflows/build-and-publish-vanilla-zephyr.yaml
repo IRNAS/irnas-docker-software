@@ -66,4 +66,4 @@ jobs:
           build-args: |
             ZEPHYR_VERSION=${{ matrix.variant.zephyr_version }}
             MCUBOOT_VERSION=${{ matrix.variant.mcuboot_version }}
-            BASE_IMAGE=${{ steps.meta-ci.outputs.tags }}
+            BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-ci:${{ inputs.release_version }}
