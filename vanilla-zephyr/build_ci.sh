@@ -6,4 +6,4 @@ docker build \
     --build-arg "ZEPHYR_VERSION=$ZEPHYR_VERSION" \
     --build-arg "MCUBOOT_VERSION=$MCUBOOT_VERSION" \
     -f "Dockerfile.ci" \
-    -t "irnas/vanilla-zephyr-ci-$ZEPHYR_VERSION:latest" .
+    -t "irnas/vanilla-zephyr-$ZEPHYR_VERSION-ci:latest" .

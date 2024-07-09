@@ -24,4 +24,4 @@ docker run -it \
     --volume "${1}":/home/user/workdir \
     --volume /dev:/dev \
     --device-cgroup-rule='c 166:* rmw' \
-    irnas/vanilla-zephyr-dev-v3.6.0:latest
+    irnas/vanilla-zephyr-v3.6.0-dev:latest
