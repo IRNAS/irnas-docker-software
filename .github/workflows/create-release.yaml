@@ -63,8 +63,14 @@ jobs:
     with:
       release_version: ${{ inputs.version }}
 
-  call-build-publish:
+  call-build-publish-vanilla-zephyr:
     needs: update-changelog
     uses: ./.github/workflows/build-and-publish-vanilla-zephyr.yaml
+    with:
+      release_version: ${{ inputs.version }}
+
+  call-build-publish-ncs-zephyr:
+    needs: update-changelog
+    uses: ./.github/workflows/build-and-publish-ncs-zephyr.yaml
     with:
       release_version: ${{ inputs.version }}
