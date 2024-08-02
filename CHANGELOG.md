@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-08-02
+
 ## [1.1.0] - 2024-07-12
 
 ### Added
@@ -24,7 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
-[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
