@@ -2,14 +2,15 @@
 # gcc-multilib make = Host tools for native_sim build
 # python 3.8 is installed by toolchain manager hence older version of libffi is
 # required. This argument is used in both images, that's why it's defined here.
-ARG APT_PACKAGES="wget curl unzip lcov gcc-multilib make libffi7 ca-certificates"
+#ARG APT_PACKAGES="wget curl unzip lcov gcc-multilib make libffi7 ca-certificates"
+ARG APT_PACKAGES="wget curl unzip lcov make libffi7 ca-certificates file"
 
 ############
 # CI image #
 ############
 FROM ubuntu:22.04 AS ci
 
-ARG NCS_SDK_VERSION=v2.6.0
+ARG NCS_SDK_VERSION=v2.6.1
 ARG NRFUTIL_VERSION=7.11.1
 ARG TOOLCHAIN_MANAGER_VERSION=0.15.0
 ARG APT_PACKAGES
@@ -25,6 +26,8 @@ RUN \
 # NCS SDK
 RUN \
   wget https://developer.nordicsemi.com/.pc-tools/nrfutil/x64-linux/nrfutil \
+  && ls -al \
+  && file ./nrfutil \
   && chmod +x nrfutil \
   && mv nrfutil /usr/bin \
   && nrfutil self-upgrade --to-version $NRFUTIL_VERSION \
@@ -39,8 +42,8 @@ RUN \
 
 FROM ubuntu:22.04 AS dev
 
-ARG UID=1000
-ARG GID=1000
+ARG UID=501
+ARG GID=20
 
 ARG arch=amd64
 ARG NORDIC_COMMAND_LINE_TOOLS_VERSION="10-24-2/nrf-command-line-tools-10.24.2"

@@ -19,12 +19,13 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ $# -lt ${NUM_ARGS} ]; then
 	exit 1
 fi
 docker run -it --rm \
+	--platform linux/amd64 \
 	--privileged \
 	--workdir /home/user/workdir \
 	--volume "${1}":/home/user/workdir \
-	--volume /home/"${USER}"/.gitconfig:/home/user/.gitconfig \
-	--volume /home/"${USER}"/.git-credentials:/home/user/.git-credentials \
+	--volume /"${HOME}"/.gitconfig:/home/user/.gitconfig \
+	--volume /"${HOME}"/.git-credentials:/home/user/.git-credentials \
 	--volume /dev:/dev \
 	--user "$(id -u):$(id -g)" \
 	--device-cgroup-rule='c 166:* rmw' \
-	irnas/ncs-zephyr-v2.6.0-dev:latest
+	irnas/ncs-zephyr-v2.6.1-dev:latest
