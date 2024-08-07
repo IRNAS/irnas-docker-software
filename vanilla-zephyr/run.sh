@@ -18,10 +18,11 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ $# -lt ${NUM_ARGS} ]; then
     sed -ne '/^#/!q;s/.\{1,2\}//;1d;p' <"$0"
     exit 1
 fi
-docker run -it \
+
+docker run -it --rm \
     --privileged \
-    --workdir /home/user/workdir \
     --volume "${1}":/home/user/workdir \
     --volume /dev:/dev \
+    --workdir /home/user/workdir \
     --device-cgroup-rule='c 166:* rmw' \
     irnas/vanilla-zephyr-v3.6.0-dev:latest

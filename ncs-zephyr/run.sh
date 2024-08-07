@@ -15,16 +15,13 @@ NUM_ARGS=1
 # Print help text and exit if -h, or --help or insufficient number of arguments
 # was given.
 if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ $# -lt ${NUM_ARGS} ]; then
-	sed -ne '/^#/!q;s/.\{1,2\}//;1d;p' <"$0"
-	exit 1
+    sed -ne '/^#/!q;s/.\{1,2\}//;1d;p' <"$0"
+    exit 1
 fi
 docker run -it --rm \
-	--privileged \
-	--workdir /home/user/workdir \
-	--volume "${1}":/home/user/workdir \
-	--volume /home/"${USER}"/.gitconfig:/home/user/.gitconfig \
-	--volume /home/"${USER}"/.git-credentials:/home/user/.git-credentials \
-	--volume /dev:/dev \
-	--user "$(id -u):$(id -g)" \
-	--device-cgroup-rule='c 166:* rmw' \
-	irnas/ncs-zephyr-v2.6.0-dev:latest
+    --privileged \
+    --volume "${1}":/home/user/workdir \
+    --volume /dev:/dev \
+    --workdir /home/user/workdir \
+    --device-cgroup-rule='c 166:* rmw' \
+    irnas/ncs-zephyr-v2.6.0-dev:latest
