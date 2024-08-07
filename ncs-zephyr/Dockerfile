@@ -96,7 +96,7 @@ ENV PATH="$PATH:/opt/SEGGER/JLink"
 RUN useradd -l -m -s /bin/bash -u $UID user
 
 
-# Copy nrfutil binary and ncs folder with toolcahin from the CI image.
+# Copy nrfutil binary and ncs folder with toolchain from the CI image.
 # Changing ownership to 'user' here is critical due to 2 reasons:
 # - without that 'user' won't be able to access nrfutil and ncs
 # - If chown is done in the next step, the image size will increase by
