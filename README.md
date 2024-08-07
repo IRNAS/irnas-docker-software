@@ -1,12 +1,10 @@
 # Irnas's repository for Zephyr Docker images
 
-This repository contains images that are used for building the Zephyr projects. Dockerfiles that are
-used to build images are divided into folders, where each folder represents a set of specific
-images.
+This repository contains images that are used for building the various Zephyr projects.
 
-## Docker images
+## Available images
 
-### Vanilla Zephyr
+### vanilla-zephyr
 
 This image is based on the official Zephyr image and contains the Zephyr SDK and Python dependencies
 to build Zephyr applications.
@@ -20,24 +18,97 @@ The `vanilla-zepyhr` folder contains two Dockerfiles:
 - `Dockerfile.dev` - A docker image which inherits from `Dockerfile.ci` image and contains some
   configuration to make development inside the container easier.
 
-#### Building images
+#### Naming scheme
 
-Both images can be built with the help of the build scripts:
+This images adhere to the following naming scheme:
+
+```code
+ghcr.io/irnas/vanilla-zephyr-<zephyr-version>-<image-type>:<tag>
+```
+
+Where:
+
+- `<zephyr-version>` - Zephyr version that the image is based on, eg. `v3.6.0`, `v3.7.0`, etc.
+- `<image-type>` - Type of the image, either `ci`, `dev`.
+- `<tag>` - Tag of the image, eg. `latest`, `v1.0.0`, `v1.0.1` etc.
+
+### ncs-zephyr
+
+This image is based on the Nordic's nRFUtil toolchain-manager binary that provides the environment
+for build NCS applications. to build Zephyr applications.
+
+The `ncs-zepyhr` folder contains only a single Dockerfile with two multi-stage builds:
+
+- `CI` - A docker image which contains all tools needed to build NCS applications. This image is
+  suitable to be used in the CI.
+- `DEV` - A docker image which inherits from `CI` stage. It contains flashing tools and some
+  configuration to make development inside the container easier.
+
+#### Naming scheme
+
+This images adhere to the following naming scheme:
+
+```code
+ghcr.io/irnas/ncs-zephyr-<ncs-version>-<image-type>:<tag>
+```
+
+Where:
+
+- `<ncs-version>` - NCS version that the image uses, eg. `v2.6.0`, `v2.7.0`, etc.
+- `<image-type>` - Type of the image, either `ci`, `dev`.
+- `<tag>` - Tag of the image, eg. `latest`, `v1.0.0`, `v1.0.1` etc.
+
+## Using pre-built images
+
+To run pre-built images, you need to have [Docker Engine] installed on your machine. If you don't
+mind additional Docker programs you can instead install [Docker Desktop] application which includes
+Docker Engine.
+
+[Docker Engine]: https://docs.docker.com/engine/
+[Docker Desktop]: https://docs.docker.com/desktop/
+
+Once Docker engine is installed, you can pull the image with the `docker pull` command. Docker
+images are available on the [GitHub Container registry]. Click on one of the images to see the exact
+pull command, for example:
 
 ```bash
-cd vanilla-zephyr
+docker pull ghcr.io/irnas/vanilla-zephyr-v3.6.0-dev:latest
+```
+
+[GitHub Container registry]: https://github.com/orgs/IRNAS/packages?repo_name=irnas-docker-software
+
+Once the image is pulled, you can run it as a container with the following command:
+
+```bash
+docker run -it --rm \
+    --privileged \
+    --volume <path_to_projects_top_westdir>:/home/user/workdir \
+    --volume /dev:/dev \
+    --workdir /home/user/workdir \
+    --device-cgroup-rule='c 166:* rmw' \
+    <full image name>
+```
+
+Do not forget to replace `<path_to_projects_top_westdir>` with the path to the top directory of your
+Zephyr project and `<full image name>` with the full image name you pulled.
+
+## Development
+
+Images can be built with the help of the build scripts located in individual image folders:
+
+```bash
 ./build_ci.sh
 ./build_dev.sh
 ```
 
-#### Developing Zephyr applications inside the containers
+There is a accompanying `run.sh` script that can be used to run the image.
 
-A development container can be started with the following command:
+## MacOS support
 
-```bash
-cd vanilla-zephyr
-./run.sh <path-to-top-west-dir>
-```
+Images currently do not support MacOS, users are required to build them locally. Workarounds is
+described in the [issue].
+
+[issue]: https://github.com/IRNAS/irnas-docker-software/issues/3#issuecomment-2273196922
 
 ## Making a new release
 
