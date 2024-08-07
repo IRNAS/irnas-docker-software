@@ -2,8 +2,7 @@
 # gcc-multilib make = Host tools for native_sim build
 # python 3.8 is installed by toolchain manager hence older version of libffi is
 # required. This argument is used in both images, that's why it's defined here.
-#ARG APT_PACKAGES="wget curl unzip lcov gcc-multilib make libffi7 ca-certificates"
-ARG APT_PACKAGES="wget curl unzip lcov make libffi7 ca-certificates file"
+ARG APT_PACKAGES="wget curl unzip lcov gcc-multilib make libffi7 ca-certificates"
 
 ############
 # CI image #
@@ -27,7 +26,6 @@ RUN \
 RUN \
   wget https://developer.nordicsemi.com/.pc-tools/nrfutil/x64-linux/nrfutil \
   && ls -al \
-  && file ./nrfutil \
   && chmod +x nrfutil \
   && mv nrfutil /usr/bin \
   && nrfutil self-upgrade --to-version $NRFUTIL_VERSION \
