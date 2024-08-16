@@ -38,13 +38,14 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{github.actor}}
           password: ${{ secrets.GITHUB_TOKEN }}
+          logout: false
 
       - name: Build and push CI image
         id: push-ci
         uses: docker/build-push-action@v5
         with:
           file: ./vanilla-zephyr/Dockerfile.ci
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-ci:${{ inputs.release_version }}
@@ -58,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: ./vanilla-zephyr/Dockerfile.dev
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-dev:${{ inputs.release_version }}

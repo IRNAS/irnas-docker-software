@@ -42,6 +42,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{github.actor}}
           password: ${{ secrets.GITHUB_TOKEN }}
+          logout: false
 
       - name: Build and push CI image
         id: push-ci
