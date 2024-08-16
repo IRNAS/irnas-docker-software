@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Removed
+
+- `linux/arm64` build for vanilla-zephyr Docker image.
+
+### Fixed
+
+- Fix the upload of the Docker image to the GitHub Container Registry.
+
 ## [1.3.1] - 2024-08-14
 
 ### Added
@@ -37,4 +45,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 [1.2.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
+[1.0.0]:
+  https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
