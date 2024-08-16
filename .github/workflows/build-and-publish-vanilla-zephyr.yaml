@@ -20,6 +20,8 @@ jobs:
       packages: write
 
     strategy:
+      # Don't fail the all builds if one of them fails.
+      fail-fast: false
       matrix:
         variant:
           - zephyr_version: "v3.6.0"
