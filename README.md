@@ -67,6 +67,13 @@ Docker Engine.
 [Docker Engine]: https://docs.docker.com/engine/
 [Docker Desktop]: https://docs.docker.com/desktop/
 
+<!-- prettier-ignore -->
+> [!NOTE]
+> Docker should be configured to run without `sudo`. Follow the [official docs] on how to setup that.
+
+[official docs]:
+  https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+
 Once Docker engine is installed, you can pull the image with the `docker pull` command. Docker
 images are available on the [GitHub Container registry]. Click on one of the images to see the exact
 pull command, for example:
