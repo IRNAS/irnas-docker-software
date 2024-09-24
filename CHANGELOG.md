@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Add `vim`, `nano` and `tmux` to the ncs-zephyr Docker image.
+
 ## [1.4.1] - 2024-08-23
 
 ### Added

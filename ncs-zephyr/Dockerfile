@@ -95,6 +95,15 @@ ARG NORDIC_COMMAND_LINE_TOOLS_VERSION="10-24-2/nrf-command-line-tools-10.24.2"
 
 SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
 
+# Install some editor and utility tools.
+RUN \
+  apt-get -y update \
+  && apt-get -y upgrade \
+  && apt-get -y install --no-install-recommends vim nano tmux \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+
 # Install Nordic command line tools
 # Releases: https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools/download
 RUN <<EOT
