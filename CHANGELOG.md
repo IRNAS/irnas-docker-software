@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Add `jq` to both ncs-zephyr and vanilla-zephyr Docker images, as IRNAS's projects depend on it.
   @Finwood found the missing dependency and contributed a fix in #5.
 
+### Fixed
+
+- Add missing clangd symlink in ncs-zephyr.
+
 ## [1.4.1] - 2024-08-23
 
 ### Added
