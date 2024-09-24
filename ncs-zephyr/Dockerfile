@@ -26,10 +26,11 @@ RUN \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-# Create simlink for clang-18 and clang-tidy-18, otherwise Codechecker fails to
+# Create simlink for clang-*, otherwise Codechecker and VSCode fails to
 # find them.
 RUN ln -s /usr/bin/clang-tidy-18 /usr/bin/clang-tidy && \
-    ln -s /usr/bin/clang-18 /usr/bin/clang
+    ln -s /usr/bin/clang-18 /usr/bin/clang && \
+    ln -s /usr/bin/clangd-18 /usr/bin/clangd
 
 ############
 # CI image #
