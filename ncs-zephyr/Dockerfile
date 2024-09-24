@@ -17,7 +17,7 @@ RUN \
   apt-get -y update \
   && apt-get -y upgrade \
   && apt-get -y install --no-install-recommends \
-  wget curl unzip lcov gcc-multilib make ca-certificates ssh doxygen \
+  wget curl unzip lcov jq gcc-multilib make ca-certificates ssh doxygen \
   graphviz librsvg2-bin texlive-latex-base texlive-latex-extra latexmk libffi7 \
   texlive-fonts-recommended imagemagick mscgen software-properties-common \
   && wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc \
