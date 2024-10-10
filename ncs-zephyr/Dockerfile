@@ -163,7 +163,89 @@ RUN find /home/user/ncs/toolchains/ -path '**/usr/local/bin/*' | \
 USER user
 
 # Append environment variables of the toolchain-manager to the user's bashrc to
+# get access to the installed programs. See extra info at the end of the file.
+RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
+
+#############
+# ZSH image #
+#############
+
+FROM dev AS zsh
+
+USER root
+
+# Install some utility tools.
+RUN \
+  apt-get -y update \
+  && apt-get -y upgrade \
+  && apt-get -y install --no-install-recommends git zsh \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* \
+  && wget -c https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz -O - | tar xz \
+  && chmod +x eza \
+  && mv eza /usr/local/bin/eza \
+  && chsh -s $(which zsh)
+
+USER user
+
+RUN <<EOT
+mkdir -p ~/.zsh
+git clone https://github.com/sindresorhus/pure.git ~/.zsh/pure
+curl -L git.io/antigen > ~/.zsh/antigen.zsh
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+cat >> ~/.zshrc << EOF
+# Install plugin manager and plugins
+source $HOME/.zsh/antigen.zsh
+antigen bundle agkozak/zsh-z
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle hcgraf/zsh-sudo
+antigen bundle zsh-users/zsh-syntax-highlighting # Needs to be last bundle
+antigen apply
+
+# Setup pure prompt
+fpath+=($HOME/.zsh/pure)
+autoload -U promptinit; promptinit
+prompt pure
+zstyle :prompt:pure:git:stash show yes
+
+# Change the path color
+zstyle :prompt:pure:user color cyan
+zstyle :prompt:pure:host color cyan
+
+setopt histignoredups   # Ignore command history duplicates
+setopt menu_complete    # Tab completion when choice ambiguous
+
+# Aliases
+alias ls='eza'
+alias cp="cp -i"        # confirm before overwriting something
+alias df='df -h'        # human-readable sizes
+alias free='free -m'    # show sizes in MB
+alias ll='ls -aglh --color=auto --group-directories-first'
+alias ml='minicom'
+alias cl='rm -fr build'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
+# Fzf
+source <(fzf --zsh)
+EOF
+
+EOT
+
+
+# Append environment variables of the toolchain-manager to the user's bashrc to
 # get access to the installed programs.
 # Previously that was done with the ENTRYPOINT command, however that is a bit
 # error prone for devcontainer usecases, as it isn't always taken into account.
-RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
+RUN nrfutil toolchain-manager env --as-script sh >> ~/.zshrc
+
+# Execute the file so that plugins are installed.
+RUN zsh ~/.zshrc
+
+CMD [ "/bin/zsh" ]

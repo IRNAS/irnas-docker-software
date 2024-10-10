@@ -43,6 +43,8 @@ The `ncs-zepyhr` folder contains only a single Dockerfile with two multi-stage b
   suitable to be used in the CI.
 - `DEV` - A docker image which inherits from `CI` stage. It contains flashing tools and some
   configuration to make development inside the container easier.
+- `ZSH` - A docker image which inherits from `DEV` stage. It contains ZSH shell and some other tools
+  for nicer developer experience.
 
 #### Naming scheme
 

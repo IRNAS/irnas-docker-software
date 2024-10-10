@@ -73,3 +73,17 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-dev:latest
           build-args: |
             NCS_SDK_VERSION=${{ matrix.variant.ncs_version }}
+
+      - name: Build and push Zsh image
+        id: push-zsh
+        uses: docker/build-push-action@v5
+        with:
+          file: ./ncs-zephyr/Dockerfile
+          target: zsh
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-zsh:${{ inputs.release_version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-zsh:latest
+          build-args: |
+            NCS_SDK_VERSION=${{ matrix.variant.ncs_version }}
