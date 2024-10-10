@@ -78,8 +78,9 @@ RUN <<EOT
     rm ./yq
 EOT
 
-SHELL ["/bin/bash", "-c"]
-ENTRYPOINT ["nrfutil", "toolchain-manager", "launch", "--shell"]
+# Append environment variables of the toolchain-manager to the user's bashrc to
+# get access to the installed programs. See extra info at the end of the file.
+RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
 
 #############
 # Dev image #
@@ -161,5 +162,8 @@ RUN find /home/user/ncs/toolchains/ -path '**/usr/local/bin/*' | \
 # Make 'user' default on launch
 USER user
 
-SHELL ["/bin/bash", "-c"]
-ENTRYPOINT ["nrfutil", "toolchain-manager", "launch", "--shell"]
+# Append environment variables of the toolchain-manager to the user's bashrc to
+# get access to the installed programs.
+# Previously that was done with the ENTRYPOINT command, however that is a bit
+# error prone for devcontainer usecases, as it isn't always taken into account.
+RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
