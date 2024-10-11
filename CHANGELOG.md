@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- `zsh` image-type to the ncs-zephyr Docker image. This image-type is based on the `dev`and contains
+  ZSH shell and some other tools for nicer developer experience.
+
 ### Changed
 
 - ncs-zephyr Docker image now adds environment variables of the toolchain-manager to the bashrc file
