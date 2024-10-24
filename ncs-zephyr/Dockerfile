@@ -100,7 +100,7 @@ SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
 RUN \
   apt-get -y update \
   && apt-get -y upgrade \
-  && apt-get -y install --no-install-recommends vim nano tmux \
+  && apt-get -y install --no-install-recommends vim nano tmux minicom \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
