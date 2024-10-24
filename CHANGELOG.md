@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Add `minicom` to the ncs-zephyr Docker image.
+- Make the `ncs-zephyr` Docker images suitable for use in the GitHub Actions. The default shell
+  needs to be set to `bash -l {0}` to source the environment variables correctly. See warning in the
+  README.md for more information.
+
 ## [1.6.0] - 2024-10-11
 
 ### Added
