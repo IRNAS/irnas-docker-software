@@ -46,6 +46,13 @@ The `ncs-zepyhr` folder contains only a single Dockerfile with two multi-stage b
 - `ZSH` - A docker image which inherits from `DEV` stage. It contains ZSH shell and some other tools
   for nicer developer experience.
 
+<!-- prettier-ignore -->
+> [!WARNING]
+> Using the `CI` image to create a container in the GitHub Actions workflow it is mandatory to
+> change the default shell to `bash -l {0}` by modifying the `default.run.shell` field. The shell
+> must be login shell to source the environment variables correctly, otherwise the installed tools
+> inside the image won't be available.
+
 #### Naming scheme
 
 This images adhere to the following naming scheme:

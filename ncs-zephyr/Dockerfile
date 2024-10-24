@@ -78,9 +78,11 @@ RUN <<EOT
     rm ./yq
 EOT
 
-# Append environment variables of the toolchain-manager to the user's bashrc to
-# get access to the installed programs. See extra info at the end of the file.
+# Append environment variables of the toolchain-manager to the user's bashrc
+# and /etc/profile to get access to the installed programs. See extra info at
+# the end of the file.
 RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
+RUN nrfutil toolchain-manager env --as-script sh >> /etc/profile
 
 #############
 # Dev image #
@@ -162,9 +164,11 @@ RUN find /home/user/ncs/toolchains/ -path '**/usr/local/bin/*' | \
 # Make 'user' default on launch
 USER user
 
-# Append environment variables of the toolchain-manager to the user's bashrc to
-# get access to the installed programs. See extra info at the end of the file.
+# Append environment variables of the toolchain-manager to the user's bashrc
+# and and /etc/profile to get access to the installed programs.
+# See extra info at the end of the file.
 RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
+RUN nrfutil toolchain-manager env --as-script sh >> /etc/profile
 
 #############
 # ZSH image #
@@ -239,11 +243,21 @@ EOF
 EOT
 
 
-# Append environment variables of the toolchain-manager to the user's bashrc to
-# get access to the installed programs.
+# Append environment variables of the toolchain-manager to the user's bashrc
+# and and /etc/profile to get access to the installed programs.
+#
 # Previously that was done with the ENTRYPOINT command, however that is a bit
 # error prone for devcontainer usecases, as it isn't always taken into account.
+#
+# The reason that we need to append to both to some rc file and /etc/profile is
+# is that the rc file gets sourced when a interactive shell is started (like
+# when you run docker run -it), but /etc/profile is sourced when a non-interactive
+# login shell is started. This solves the GitHub Action workflow issue where
+# which always runs the command in a non-interactive shell. By setting the
+# defaults.run.shell property to "bash -l {0}" the /etc/profile file is sourced,
+# thus we get access to the path.
 RUN nrfutil toolchain-manager env --as-script sh >> ~/.zshrc
+RUN nrfutil toolchain-manager env --as-script sh >> /etc/profile
 
 # Execute the file so that plugins are installed.
 RUN zsh ~/.zshrc
