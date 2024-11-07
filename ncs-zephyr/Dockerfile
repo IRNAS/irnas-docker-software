@@ -19,7 +19,7 @@ RUN \
   && apt-get -y install --no-install-recommends \
   wget curl unzip lcov jq gcc-multilib make ca-certificates ssh doxygen \
   graphviz librsvg2-bin texlive-latex-base texlive-latex-extra latexmk libffi7 \
-  texlive-fonts-recommended imagemagick mscgen software-properties-common \
+  texlive-fonts-recommended imagemagick mscgen software-properties-common git \
   && wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc \
   && add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main" \
   && apt-get -y install --no-install-recommends clang-18 clang-tidy-18 clangd-18 cppcheck \
