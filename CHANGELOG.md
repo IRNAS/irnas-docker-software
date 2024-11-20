@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Add bash completion to the Dev ncs-zephyr docker image.
+
+
 ## [1.8.1] - 2024-11-19
 
 This is a no-change release, it is only needed so that image with NCS v2.8.0 can be published.

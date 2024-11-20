@@ -112,7 +112,7 @@ SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
 RUN \
   apt-get -y update \
   && apt-get -y upgrade \
-  && apt-get -y install --no-install-recommends vim nano tmux minicom \
+  && apt-get -y install --no-install-recommends vim nano tmux minicom bash-completion \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -179,6 +179,12 @@ USER user
 # to get access to the installed programs.
 # See extra info at the above similar line.
 RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
+
+# Enable bash completion for the user
+RUN echo "if [ -f /etc/bash_completion ]; then" >> ~/.bashrc && \
+    echo "    . /etc/bash_completion" >> ~/.bashrc && \
+    echo "fi" >> ~/.bashrc
+
 
 #############
 # ZSH image #
