@@ -6,10 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [1.9.0] - 2024-11-20
+
 ### Added
 
 - Add bash completion to the Dev ncs-zephyr docker image.
-
 
 ## [1.8.1] - 2024-11-19
 
@@ -103,7 +104,8 @@ All below changes are related to the ncs-zephyr Docker image:
 
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
-[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.8.1...HEAD
+[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.6.0...v1.7.0
