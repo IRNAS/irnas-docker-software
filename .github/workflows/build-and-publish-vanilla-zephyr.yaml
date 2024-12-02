@@ -25,7 +25,14 @@ jobs:
       matrix:
         variant:
           - zephyr_version: "v3.6.0"
+            zephyr_sdk_version: "0.16.8"
             mcuboot_version: "a4eda30f5b0cfd0cf15512be9dcd559239dbfc91"
+          - zephyr_version: "v3.7.1"
+            zephyr_sdk_version: "0.16.9"
+            mcuboot_version: "ea2410697dd0262edec041a0ccb07fdbde7c1aff"
+          - zephyr_version: "v4.0.0"
+            zephyr_sdk_version: "0.17.0"
+            mcuboot_version: "f74b77cf7808919837c0ed14c2ead3918c546349"
 
     steps:
       - name: Checkout repository
@@ -54,6 +61,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-ci:latest
           build-args: |
             ZEPHYR_VERSION=${{ matrix.variant.zephyr_version }}
+            ZEPHYR_SDK_VERSION=${{ matrix.variant.zephyr_sdk_version }}
             MCUBOOT_VERSION=${{ matrix.variant.mcuboot_version }}
 
       - name: Build and push Dev image
@@ -68,5 +76,6 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-dev:latest
           build-args: |
             ZEPHYR_VERSION=${{ matrix.variant.zephyr_version }}
+            ZEPHYR_SDK_VERSION=${{ matrix.variant.zephyr_sdk_version }}
             MCUBOOT_VERSION=${{ matrix.variant.mcuboot_version }}
             BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.zephyr_version }}-ci:${{ inputs.release_version }}
