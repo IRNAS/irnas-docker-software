@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ### Added
 
 - Add support for Zephyr v3.7.1 (LTS) and v4.0.0.
+- Add support for NCS v2.9.0
 
 ## [1.9.0] - 2024-11-20
 
