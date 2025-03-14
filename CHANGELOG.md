@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Add support for Zephyr v4.1.0.
+
+### Change
+
+- Infra: Update versions of 3rd-party actions, move to `ubuntu-latest`.
+
+### Fix
+
+- Pin pygobject pip package to 3.50.0 in vanilla-zephyr/Dockerfile.ci. Before that the latest
+  version was installed, which caused the image build to fail.
+
 ## [1.10.0] - 2024-12-20
 
 ### Added
