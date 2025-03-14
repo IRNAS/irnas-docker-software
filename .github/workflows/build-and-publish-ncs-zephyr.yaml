@@ -13,7 +13,7 @@ env:
 
 jobs:
   publish:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
@@ -50,7 +50,7 @@ jobs:
 
       - name: Build and push CI image
         id: push-ci
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ./ncs-zephyr/Dockerfile
           target: ci
@@ -64,7 +64,7 @@ jobs:
 
       - name: Build and push Dev image
         id: push-dev
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ./ncs-zephyr/Dockerfile
           target: dev
@@ -78,7 +78,7 @@ jobs:
 
       - name: Build and push Zsh image
         id: push-zsh
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ./ncs-zephyr/Dockerfile
           target: zsh
