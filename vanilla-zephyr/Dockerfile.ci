@@ -69,7 +69,7 @@ RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
 # Install Python dependencies
 RUN python3 -m pip install -U --no-cache-dir pip && \
 	pip3 install -U --no-cache-dir wheel setuptools && \
-	pip3 install --no-cache-dir pygobject && \
+	pip3 install --no-cache-dir pygobject==3.50.0 && \
 	pip3 install --no-cache-dir \
 		-r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/${ZEPHYR_VERSION}/scripts/requirements.txt \
 		-r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/${MCUBOOT_VERSION}/scripts/requirements.txt \
