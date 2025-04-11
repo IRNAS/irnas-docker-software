@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+No changes in this release, the Docker images were rebuilt to use the latest East version.
+
 ## [1.11.0] - 2025-03-14
 
 ### Added
