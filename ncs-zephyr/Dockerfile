@@ -5,6 +5,8 @@ ARG NCS_SDK_VERSION
 ##############
 FROM ubuntu:22.04 AS base
 
+ARG JLINK_VERSION=V818
+
 # Stages building from base inherit below env vars.
 ENV EAST_DONT_USE_TOOLCHAIN_MANAGER=1
 ENV EAST_CODECHECKER_CI_MODE=1
@@ -20,6 +22,7 @@ RUN \
   wget curl unzip lcov jq gcc-multilib make ca-certificates ssh doxygen \
   graphviz librsvg2-bin texlive-latex-base texlive-latex-extra latexmk libffi7 \
   texlive-fonts-recommended imagemagick mscgen software-properties-common git \
+  libxcb-render-util0 libxcb-shape0 libxcb-icccm4  libxcb-keysyms1 libxcb-image0 libxkbcommon-x11-0 libsm6 libice6 udev \
   && wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc \
   && add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main" \
   && apt-get -y install --no-install-recommends clang-18 clang-tidy-18 clangd-18 cppcheck \
@@ -31,6 +34,21 @@ RUN \
 RUN ln -s /usr/bin/clang-tidy-18 /usr/bin/clang-tidy && \
     ln -s /usr/bin/clang-18 /usr/bin/clang && \
     ln -s /usr/bin/clangd-18 /usr/bin/clangd
+
+# Install JLink
+# The location must be /opt/SEGGER/JLink, as the nrfUtil is expects to find
+# JLink's binaries in that location. That was deduced from the output of the
+# below command:
+# nrfutil device --log-level trace  --log-output stdout --json-pretty erase
+RUN mkdir -p /opt/SEGGER \
+    && wget --post-data="accept_license_agreement=accepted&submit=Download+software" -O /opt/SEGGER/JLink_Linux.tgz https://www.segger.com/downloads/jlink/JLink_Linux_${JLINK_VERSION}_x86_64.tgz \
+    && tar xf /opt/SEGGER/JLink_Linux.tgz -C /opt/SEGGER \
+    && rm /opt/SEGGER/JLink_Linux.tgz \
+    && mv /opt/SEGGER/JLink* /opt/SEGGER/JLink \
+    && mv /opt/SEGGER/JLink/99-jlink.rules /etc/udev/rules.d/
+
+# Add JLink binaries to the PATH
+ENV PATH="$PATH:/opt/SEGGER/JLink"
 
 ############
 # CI image #
@@ -117,7 +135,8 @@ RUN \
   && rm -rf /var/lib/apt/lists/*
 
 
-# Install Nordic command line tools
+# Install Nordic command line tools, those are still needed for older NCS
+# versions, as the nrfutil doesn't support them.
 # Releases: https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools/download
 RUN <<EOT
     NCLT_BASE=https://nsscprodmedia.blob.core.windows.net/prod/software-and-other-downloads/desktop-software/nrf-command-line-tools/sw/versions-10-x-x
@@ -127,10 +146,6 @@ RUN <<EOT
     if [ ! -z "$NCLT_URL" ]; then
         mkdir -p temporary && cd temporary
         wget -qO - "${NCLT_URL}" | tar --no-same-owner -xz
-        # Install included JLink
-        mkdir /opt/SEGGER
-        tar xzf JLink_*.tgz -C /opt/SEGGER
-        mv /opt/SEGGER/JLink* /opt/SEGGER/JLink
         # Install nrf-command-line-tools
         cp -r ./nrf-command-line-tools /opt
         ln -s /opt/nrf-command-line-tools/bin/nrfjprog /usr/local/bin/nrfjprog
@@ -141,9 +156,6 @@ RUN <<EOT
         echo "Skipping nRF Command Line Tools (not available for $arch)" ;
     fi
 EOT
-
-# Add JLink binaries to the PATH
-ENV PATH="$PATH:/opt/SEGGER/JLink"
 
 # Create 'user' account
 RUN useradd -l -m -s /bin/bash -u $UID user
