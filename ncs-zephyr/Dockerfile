@@ -56,8 +56,9 @@ ENV PATH="$PATH:/opt/SEGGER/JLink"
 FROM base AS ci
 
 ARG NCS_SDK_VERSION
-ARG NRFUTIL_VERSION=7.11.1
+ARG NRFUTIL_VERSION=8.0.0
 ARG TOOLCHAIN_MANAGER_VERSION=0.15.0
+ARG DEVICE_VERSION=2.9.0
 ARG CODECHECKER_VERSION=6.23.1
 
 SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
@@ -68,6 +69,7 @@ RUN \
   && chmod +x nrfutil \
   && mv nrfutil /usr/bin \
   && nrfutil self-upgrade --to-version $NRFUTIL_VERSION \
+  && nrfutil install device=$DEVICE_VERSION \
   && nrfutil install toolchain-manager=$TOOLCHAIN_MANAGER_VERSION \
   && nrfutil toolchain-manager install --ncs-version ${NCS_SDK_VERSION} \
   && rm -fr /root/ncs/tmp \
