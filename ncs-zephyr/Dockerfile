@@ -8,7 +8,7 @@ FROM ubuntu:22.04 AS base
 ARG JLINK_VERSION=V818
 
 # Stages building from base inherit below env vars.
-ENV EAST_DONT_USE_TOOLCHAIN_MANAGER=1
+ENV EAST_NRFUTIL_CI_MODE=1
 ENV EAST_CODECHECKER_CI_MODE=1
 
 # OS dependencies and packages
