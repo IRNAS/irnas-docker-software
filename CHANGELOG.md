@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [1.12.0] - 2025-04-18
+
 ### Added
 
 - Use newer version of the JLink (v8.18). Newer version is needed due to the XIP features.
@@ -146,7 +148,8 @@ All below changes are related to the ncs-zephyr Docker image:
 
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
-[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.11.2...HEAD
+[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.12.0...HEAD
+[1.12.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.11.2...v1.12.0
 [1.11.2]: https://github.com/IRNAS/irnas-docker-software/compare/v1.11.1...v1.11.2
 [1.11.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.11.0...v1.11.1
 [1.11.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.10.0...v1.11.0
@@ -163,5 +166,4 @@ All below changes are related to the ncs-zephyr Docker image:
 [1.2.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.0...v1.0.1
-[1.0.0]:
-  https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
+[1.0.0]: https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
