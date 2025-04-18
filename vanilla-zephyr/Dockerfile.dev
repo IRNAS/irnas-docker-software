@@ -3,13 +3,26 @@ FROM ${BASE_IMAGE}
 
 ARG UID=1000
 ARG GID=1000
+ARG JLINK_VERSION=V818
 
 RUN apt-get -y update && \
     apt-get install --no-install-recommends -y \
-	openocd && \
+	openocd \
+    libxcb-render-util0 libxcb-shape0 libxcb-icccm4  libxcb-keysyms1 libxcb-image0 libxkbcommon-x11-0 libsm6 libice6 udev \
     apt-get clean -y && \
 	apt-get autoremove --purge -y && \
 	rm -rf /var/lib/apt/lists/*
+
+# Install JLink
+RUN mkdir -p /opt/SEGGER \
+    && wget --post-data="accept_license_agreement=accepted&submit=Download+software" -O /opt/SEGGER/JLink_Linux.tgz https://www.segger.com/downloads/jlink/JLink_Linux_${JLINK_VERSION}_x86_64.tgz \
+    && tar xf /opt/SEGGER/JLink_Linux.tgz -C /opt/SEGGER \
+    && rm /opt/SEGGER/JLink_Linux.tgz \
+    && mv /opt/SEGGER/JLink* /opt/SEGGER/JLink \
+    && mv /opt/SEGGER/JLink/99-jlink.rules /etc/udev/rules.d/
+
+# Add JLink binaries to the PATH
+ENV PATH="$PATH:/opt/SEGGER/JLink"
 
 # Create 'user' account
 RUN useradd -l -m -s /bin/bash -u $UID user
