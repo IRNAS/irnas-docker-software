@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Use newer version of the JLink (v8.18). Newer version is needed due to the XIP features.
+
+### Changed
+
+- Change to using `EAST_NRFUTIL_CI_MODE` instead of `EAST_DONT_USE_TOOLCHAIN_MANAGER`. See
+  [East's release notes](https://github.com/IRNAS/irnas-east-software/releases/tag/v0.27.0) for
+  details.
+- Pin `nrfutil` to `8.0.0`.
+- Pin `nrfutil device` to `2.9.0`.
+
 ## [1.11.2] - 2025-04-11
 
 No changes in this release, the Docker images were rebuilt to use the latest East version.
@@ -151,4 +163,5 @@ All below changes are related to the ncs-zephyr Docker image:
 [1.2.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
+[1.0.0]:
+  https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
