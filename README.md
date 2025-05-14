@@ -53,6 +53,15 @@ The `ncs-zepyhr` folder contains only a single Dockerfile with two multi-stage b
 > must be login shell to source the environment variables correctly, otherwise the installed tools
 > inside the image won't be available.
 
+<!-- prettier-ignore -->
+> [!WARNING]
+> Some runners, like the ones provided by GitHub (`ubuntu-latest`, et al.), have a specific bug
+> related to the location of the `.nrfutil` folder. The full explanation of the bug can be found
+> in [this issue]. TLDR: Run `cp -r /root/.nrfutil $HOME` as the first command after checkout
+> action, `nrfutil` will then work as expected.
+
+[this issue]: https://github.com/IRNAS/irnas-docker-software/issues/9
+
 #### Naming scheme
 
 This images adhere to the following naming scheme:
