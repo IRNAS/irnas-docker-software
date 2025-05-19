@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Add support for NCS v3.0.0 and v3.0.1.
+
 ## [1.12.0] - 2025-04-18
 
 ### Added
