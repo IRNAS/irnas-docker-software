@@ -19,7 +19,7 @@ RUN \
   apt-get -y update \
   && apt-get -y upgrade \
   && apt-get -y install --no-install-recommends \
-  wget curl unzip lcov jq gcc-multilib make ca-certificates ssh doxygen \
+  wget curl zip unzip lcov jq gcc-multilib make ca-certificates ssh doxygen \
   graphviz librsvg2-bin texlive-latex-base texlive-latex-extra latexmk libffi7 \
   texlive-fonts-recommended imagemagick mscgen software-properties-common git \
   libxcb-render-util0 libxcb-shape0 libxcb-icccm4  libxcb-keysyms1 libxcb-image0 libxkbcommon-x11-0 libsm6 libice6 udev \

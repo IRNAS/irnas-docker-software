@@ -47,8 +47,10 @@ RUN \
   python3-setuptools \
   python3-tk \
   python3-wheel \
+  unzip \
   wget \
-  xz-utils
+  xz-utils \
+  zip
 
 # Install multi-lib gcc (x86 only)
 RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
