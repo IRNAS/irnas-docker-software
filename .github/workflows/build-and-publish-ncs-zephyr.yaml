@@ -34,6 +34,7 @@ jobs:
           - ncs_version: "v2.9.0"
           - ncs_version: "v3.0.0"
           - ncs_version: "v3.0.1"
+          - ncs_version: "v3.0.2"
 
     steps:
       - name: Checkout repository

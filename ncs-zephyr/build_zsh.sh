@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-NCS_SDK_VERSION=v2.7.0
+NCS_SDK_VERSION=v3.0.2
 
 docker build \
     --build-arg "NCS_SDK_VERSION=$NCS_SDK_VERSION" \
