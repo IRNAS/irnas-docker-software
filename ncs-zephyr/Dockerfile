@@ -199,6 +199,12 @@ RUN echo "if [ -f /etc/bash_completion ]; then" >> ~/.bashrc && \
     echo "    . /etc/bash_completion" >> ~/.bashrc && \
     echo "fi" >> ~/.bashrc
 
+# Fix GDB-PY not working
+# We tell GDB to ignore $PYTHONPATH and $PYTHONHOME environment variables
+# as they are set to point into the nrfutil toolchain.
+# We need GDB-PY to use the system python3.10 and the system python libs
+# (Python3.10 is the default python version in Ubuntu 22.04).
+RUN echo "set python ignore-environment on" >  ~/.gdbearlyinit
 
 #############
 # ZSH image #
