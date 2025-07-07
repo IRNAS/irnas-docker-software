@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 - Debugging commands (west debug/west attach) in the ncs-zephyr will now correctly locate the JLink
   binaries.
+- Resolve issue with the gdb-py.
 
 ## [1.15.1] - 2025-05-30
 
