@@ -47,9 +47,6 @@ RUN mkdir -p /opt/SEGGER \
     && mv /opt/SEGGER/JLink* /opt/SEGGER/JLink \
     && mv /opt/SEGGER/JLink/99-jlink.rules /etc/udev/rules.d/
 
-# Add JLink binaries to the PATH
-ENV PATH="$PATH:/opt/SEGGER/JLink"
-
 ############
 # CI image #
 ############
@@ -113,6 +110,12 @@ EOT
 # thus we get access to the path.
 RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
 RUN nrfutil toolchain-manager env --as-script sh >> /etc/profile
+
+# Explicitly add JLink to the PATH in the ~/.bashrc and /etc/profile.
+# Since we override the PATH in the above calls, the JLink path needs to be
+# added explicitly. ENV command is not good enough.
+RUN echo 'PATH="$PATH:/opt/SEGGER/JLink"' >> ~/.bashrc
+RUN echo 'PATH="$PATH:/opt/SEGGER/JLink"' >> /etc/profile
 
 #############
 # Dev image #
@@ -193,6 +196,11 @@ USER user
 # to get access to the installed programs.
 # See extra info at the above similar line.
 RUN nrfutil toolchain-manager env --as-script sh >> ~/.bashrc
+
+# Explicitly add JLink to the PATH in the ~/.bashrc and /etc/profile.
+# Since we override the PATH in the above calls, the JLink path needs to be
+# added explicitly. ENV command is not good enough.
+RUN echo 'PATH="$PATH:/opt/SEGGER/JLink"' >> ~/.bashrc
 
 # Enable bash completion for the user
 RUN echo "if [ -f /etc/bash_completion ]; then" >> ~/.bashrc && \
@@ -283,6 +291,11 @@ EOT
 # to get access to the installed programs.
 # See extra info at the above similar line.
 RUN nrfutil toolchain-manager env --as-script sh >> ~/.zshrc
+
+# Explicitly add JLink to the PATH in the ~/.zshrc
+# Since we override the PATH in the above calls, the JLink path needs to be
+# added explicitly. ENV command is not good enough.
+RUN echo 'PATH="$PATH:/opt/SEGGER/JLink"' >> ~/.zshrc
 
 # Execute the file so that plugins are installed.
 RUN zsh ~/.zshrc
