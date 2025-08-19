@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Add support for NCS v3.1.0 and Zephyr v4.2.0.
+
 ## [1.16.0] - 2025-07-09
 
 No changes in this release, the Docker images were rebuilt to use the latest East version.
