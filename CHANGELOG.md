@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [1.18.0] - 2025-08-22
+
 ### Fixed
 
 - Previous release added support only for Zephyr v4.1.0, this one adds support also for
@@ -201,7 +203,8 @@ All below changes are related to the ncs-zephyr Docker image:
 
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
-[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.17.0...HEAD
+[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.18.0...HEAD
+[1.18.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.17.0...v1.18.0
 [1.17.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.16.0...v1.17.0
 [1.16.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.15.3...v1.16.0
 [1.15.3]: https://github.com/IRNAS/irnas-docker-software/compare/v1.15.2...v1.15.3
