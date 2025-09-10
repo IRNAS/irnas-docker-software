@@ -6,6 +6,8 @@ ARG NCS_SDK_VERSION
 FROM ubuntu:22.04 AS base
 
 ARG JLINK_VERSION=V818
+ARG DOXYGEN_VERSION=1.14.0
+ARG WGET_ARGS="-q --show-progress --progress=bar:force:noscroll"
 
 # Stages building from base inherit below env vars.
 ENV EAST_NRFUTIL_CI_MODE=1
@@ -19,7 +21,7 @@ RUN \
   apt-get -y update \
   && apt-get -y upgrade \
   && apt-get -y install --no-install-recommends \
-  wget curl zip unzip lcov jq gcc-multilib make ca-certificates ssh doxygen \
+  wget curl zip unzip lcov jq gcc-multilib make ca-certificates ssh \
   graphviz librsvg2-bin texlive-latex-base texlive-latex-extra latexmk libffi7 \
   texlive-fonts-recommended imagemagick mscgen software-properties-common git \
   libxcb-render-util0 libxcb-shape0 libxcb-icccm4  libxcb-keysyms1 libxcb-image0 libxkbcommon-x11-0 libsm6 libice6 udev \
@@ -46,6 +48,15 @@ RUN mkdir -p /opt/SEGGER \
     && rm /opt/SEGGER/JLink_Linux.tgz \
     && mv /opt/SEGGER/JLink* /opt/SEGGER/JLink \
     && mv /opt/SEGGER/JLink/99-jlink.rules /etc/udev/rules.d/
+
+# Install Doxygen (x86 only)
+# NOTE: Pre-built Doxygen binaries are only available for x86_64 host.
+RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
+	wget ${WGET_ARGS} https://downloads.sourceforge.net/project/doxygen/rel-${DOXYGEN_VERSION}/doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz && \
+	tar xf doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz -C /opt && \
+	ln -s /opt/doxygen-${DOXYGEN_VERSION}/bin/doxygen /usr/local/bin && \
+	rm doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz \
+	; fi
 
 ############
 # CI image #
