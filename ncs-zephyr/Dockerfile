@@ -49,14 +49,15 @@ RUN mkdir -p /opt/SEGGER \
     && mv /opt/SEGGER/JLink* /opt/SEGGER/JLink \
     && mv /opt/SEGGER/JLink/99-jlink.rules /etc/udev/rules.d/
 
-# Install Doxygen (x86 only)
-# NOTE: Pre-built Doxygen binaries are only available for x86_64 host.
-RUN if [ "${HOSTTYPE}" = "x86_64" ]; then \
-	wget ${WGET_ARGS} https://downloads.sourceforge.net/project/doxygen/rel-${DOXYGEN_VERSION}/doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz && \
-	tar xf doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz -C /opt && \
-	ln -s /opt/doxygen-${DOXYGEN_VERSION}/bin/doxygen /usr/local/bin && \
-	rm doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz \
-	; fi
+# Install Doxygen
+RUN <<EOT
+    URL_VERSION=$(echo ${DOXYGEN_VERSION} | sed 's/\./_/g')
+    wget ${WGET_ARGS} "https://github.com/doxygen/doxygen/releases/download/Release_${URL_VERSION}/doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz"
+    tar xf doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz -C /opt
+    ln -s /opt/doxygen-${DOXYGEN_VERSION}/bin/doxygen /usr/local/bin
+    rm doxygen-${DOXYGEN_VERSION}.linux.bin.tar.gz
+EOT
+
 
 ############
 # CI image #
