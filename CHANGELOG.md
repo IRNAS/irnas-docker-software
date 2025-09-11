@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [1.21.0] - 2025-09-11
+
 ### Added
 
 - Install `breathe` python package in `ncs-zephyr`
@@ -221,7 +223,8 @@ All below changes are related to the ncs-zephyr Docker image:
 
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
-[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.20.0...HEAD
+[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.21.0...HEAD
+[1.21.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.20.0...v1.21.0
 [1.20.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.19.0...v1.20.0
 [1.19.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.18.0...v1.19.0
 [1.18.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.17.0...v1.18.0
