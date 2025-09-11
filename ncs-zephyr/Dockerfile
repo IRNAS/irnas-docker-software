@@ -104,6 +104,7 @@ RUN <<EOT
     mngr pip install --no-cache-dir -r \
     https://raw.githubusercontent.com/nrfconnect/sdk-zephyr/$SDK_ZEPHYR_VERSION/doc/requirements.txt || \
     mngr pip install --no-cache-dir -r https://raw.githubusercontent.com/nrfconnect/sdk-zephyr/$SDK_ZEPHYR_VERSION/scripts/requirements-doc.txt
+    mngr pip install breathe
     rm ./yq
 EOT
 
