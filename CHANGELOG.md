@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### General
+
+#### Added
+
+- Add a way to trigger build of Docker images in CI, without publishing them.
+
+### vanilla-zephyr
+
+#### Added
+
+- Add support for following Zephyr versions:
+  - v4.3.0
+  - v4.4.0-rc1
+- Install protobuf-compiler.
+
+#### Changed
+
+- Update Dockerfiles to use Ubuntu 24.04.
+- Upgrade Doxygen to v1.16.0.
+- Upgrade Ccache to v4.13.2.
+- Upgrade LLVM to v20.
+
 ## [1.21.0] - 2025-09-11
 
 ### Added
@@ -253,4 +275,5 @@ All below changes are related to the ncs-zephyr Docker image:
 [1.2.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
+[1.0.0]:
+  https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
