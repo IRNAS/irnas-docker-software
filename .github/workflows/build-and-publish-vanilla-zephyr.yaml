@@ -58,6 +58,12 @@ jobs:
           - zephyr_version: "v4.2.0"
             zephyr_sdk_version: "0.17.4"
             mcuboot_version: "4eba8087fa606db801455f14d185255bc8c49467"
+          - zephyr_version: "v4.3.0"
+            zephyr_sdk_version: "0.17.4"
+            mcuboot_version: "96576b341ee19f1c3af6622256b0d4f3d408e1e3"
+          - zephyr_version: "v4.4.0-rc1"
+            zephyr_sdk_version: "1.0.1"
+            mcuboot_version: "cf5810201c84d6e266aeda2abdab80854066ac08"
 
     steps:
       - name: Checkout repository
