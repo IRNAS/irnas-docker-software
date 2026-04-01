@@ -6,6 +6,22 @@ on:
       release_version:
         required: true
         type: string
+      publish:
+        default: false
+        required: false
+        type: boolean
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: "Release version"
+        default: "v1.0.0"
+        required: false
+        type: string
+      publish:
+        description: "Whether to publish built images"
+        default: false
+        required: false
+        type: boolean
 
 env:
   REGISTRY: ghcr.io
@@ -59,7 +75,7 @@ jobs:
           file: ./ncs-zephyr/Dockerfile
           target: ci
           platforms: linux/amd64
-          push: true
+          push: ${{ inputs.publish }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-ci:${{ inputs.release_version }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-ci:latest
@@ -73,7 +89,7 @@ jobs:
           file: ./ncs-zephyr/Dockerfile
           target: dev
           platforms: linux/amd64
-          push: true
+          push: ${{ inputs.publish }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-dev:${{ inputs.release_version }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-dev:latest
@@ -87,7 +103,7 @@ jobs:
           file: ./ncs-zephyr/Dockerfile
           target: zsh
           platforms: linux/amd64
-          push: true
+          push: ${{ inputs.publish }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-zsh:${{ inputs.release_version }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.variant.ncs_version }}-zsh:latest
