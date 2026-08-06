@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [1.24.0] - 2026-08-06
+
 #### Added
 
 - Add support for following ncs-zephyr versions:
@@ -267,7 +269,9 @@ All below changes are related to the ncs-zephyr Docker image:
 
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
-[unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.23.0...HEAD
+[Unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.24.0...HEAD
+
+[1.24.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.23.0...v1.24.0
 [1.23.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.22.0...v1.23.0
 [1.22.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.21.0...v1.22.0
 [1.21.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.20.0...v1.21.0
