@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+#### Added
+
+- Add support for following ncs-zephyr versions:
+  - v3.4.0
+
 ## [1.23.0] - 2026-04-23
 
 ### vanilla-zephyr
