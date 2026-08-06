@@ -35,7 +35,7 @@ jobs:
           fi
 
       - name: Update Changelog
-        uses: irnas/irnas-changelog-action@v1
+        uses: irnas/irnas-changelog-action@v1.0.0
         with:
           tag: ${{ inputs.version }}
 
