@@ -20,6 +20,7 @@ ARG PYTHON_VENV_PATH=/opt/python/venv
 ARG UBUNTU_MIRROR_ARCHIVE=archive.ubuntu.com/ubuntu
 ARG UBUNTU_MIRROR_SECURITY=security.ubuntu.com/ubuntu
 ARG UBUNTU_MIRROR_PORTS=ports.ubuntu.com/ubuntu-ports
+ARG JLINK_VERSION=V818
 
 # Set default shell during Docker image build to bash
 SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
@@ -118,7 +119,8 @@ RUN <<EOF
 		wget \
 		ovmf \
 		xz-utils \
-		thrift-compiler
+		thrift-compiler \
+        openocd
 
 	# Install x86-64 image-specific packages
 	if [ "${HOSTTYPE}" = "x86_64" ]; then
@@ -166,7 +168,7 @@ RUN <<EOF
 	popd
 EOF
 
-# Initialise system locale
+# Initialize system locale
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
@@ -174,7 +176,7 @@ ENV LC_ALL=en_US.UTF-8
 
 # Set up Python virtual environment for Zephyr
 RUN <<EOF
-	# Initialise virtual environment
+	# Initialize virtual environment
 	mkdir -p ${PYTHON_VENV_PATH}
 	python3 -m venv ${PYTHON_VENV_PATH}
 
@@ -251,6 +253,21 @@ RUN <<EOF
 	fi
 EOF
 
+# Install JLink
+# The location must be /opt/SEGGER/JLink, as the nrfUtil is expects to find
+# JLink's binaries in that location. That was deduced from the output of the
+# below command:
+# nrfutil device --log-level trace  --log-output stdout --json-pretty erase
+RUN <<EOF
+    mkdir -p /opt/SEGGER
+    wget --post-data="accept_license_agreement=accepted&submit=Download+software" -O /opt/SEGGER/JLink_Linux.tgz https://www.segger.com/downloads/jlink/JLink_Linux_${JLINK_VERSION}_x86_64.tgz
+    tar xf /opt/SEGGER/JLink_Linux.tgz -C /opt/SEGGER
+    rm /opt/SEGGER/JLink_Linux.tgz
+    mv /opt/SEGGER/JLink* /opt/SEGGER/JLink
+    mkdir -p /etc/udev/rules.d/
+    mv /opt/SEGGER/JLink/99-jlink.rules /etc/udev/rules.d/
+EOF
+
 # Install protobuf-compiler
 RUN <<EOF
 	mkdir -p /opt/protoc
@@ -285,4 +302,12 @@ RUN <<EOF
     apt-get clean -y
 	apt-get autoremove --purge -y
 	rm -rf /var/lib/apt/lists/*
+EOF
+
+# Explicitly add JLink to the PATH in the ~/.bashrc and /etc/profile.
+# Since we override the PATH in the above calls, the JLink path needs to be
+# added explicitly. ENV command is not good enough.
+RUN <<EOF
+    echo 'PATH="$PATH:/opt/SEGGER/JLink"' >> ~/.bashrc
+    echo 'PATH="$PATH:/opt/SEGGER/JLink"' >> /etc/profile
 EOF

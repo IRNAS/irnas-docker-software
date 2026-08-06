@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 - Add support for following ncs-zephyr versions:
   - v3.4.0
+- Add JLink support to the vanilla-zephyr Docker image.
+
+#### Changed
+
+- OpenOCD in the vanilla-zephyr Docker image is now part of the CI image, before it was only part of
+  the DEV image.
 
 ## [1.23.0] - 2026-04-23
 
@@ -293,4 +299,5 @@ All below changes are related to the ncs-zephyr Docker image:
 [1.2.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0
+[1.0.0]:
+  https://github.com/IRNAS/irnas-docker-software/compare/b08044e0137bcbbf5f060545de6b2d2a9f1ee8d8...v1.0.0

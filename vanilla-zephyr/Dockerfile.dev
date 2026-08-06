@@ -5,10 +5,10 @@ ARG USERNAME=user
 ARG UID=1000
 ARG GID=1000
 
-# Install openocd
+# Install sudo
 RUN <<EOF
     apt-get -y update
-    apt-get install --no-install-recommends -y openocd sudo
+    apt-get install --no-install-recommends -y sudo
     apt-get clean -y
 	apt-get autoremove --purge -y
 	rm -rf /var/lib/apt/lists/*
@@ -33,3 +33,6 @@ EOF
 
 # Make 'user' default on launch
 USER user
+
+# Explicitly add JLink to the PATH in the ~/.bashrc
+RUN echo 'PATH="$PATH:/opt/SEGGER/JLink"' >> ~/.bashrc
