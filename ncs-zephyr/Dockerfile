@@ -59,6 +59,37 @@ RUN <<EOT
 EOT
 
 
+# The nRF SDK toolchain exports Perl and dynamic-loader paths for its bundled
+# Perl. lcov and genhtml are provided by APT and must use the matching system
+# Perl modules.
+RUN <<EOF
+    mv /usr/bin/lcov /usr/bin/lcov.real
+    cat > /usr/bin/lcov <<'EOT'
+#!/bin/sh
+exec env -i \
+    PATH=/usr/bin:/bin \
+    HOME="${HOME:-/tmp}" \
+    LANG="${LANG:-C}" \
+    LC_ALL="${LC_ALL:-C}" \
+    /usr/bin/perl /usr/bin/lcov.real "$@"
+EOT
+    chmod +x /usr/bin/lcov
+EOF
+
+RUN <<EOF
+    mv /usr/bin/genhtml /usr/bin/genhtml.real
+    cat > /usr/bin/genhtml <<'EOT'
+#!/bin/sh
+exec env -i \
+    PATH=/usr/bin:/bin \
+    HOME="${HOME:-/tmp}" \
+    LANG="${LANG:-C}" \
+    LC_ALL="${LC_ALL:-C}" \
+    /usr/bin/perl /usr/bin/genhtml.real "$@"
+EOT
+    chmod +x /usr/bin/genhtml
+EOF
+
 ############
 # CI image #
 ############

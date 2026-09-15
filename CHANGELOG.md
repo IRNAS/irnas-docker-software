@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Fixed
+
+- Issue with lcov and genhtml was fixed in ncs-zephyr image. Due to the changes in the v3.4.0 those
+  two, system installed tools, were in mismatch with the perl provided by the nrfutil
+  toolchain-manager.
+
 ## [1.24.0] - 2026-08-06
 
 #### Added
@@ -270,7 +276,6 @@ All below changes are related to the ncs-zephyr Docker image:
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
 [Unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.24.0...HEAD
-
 [1.24.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.23.0...v1.24.0
 [1.23.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.22.0...v1.23.0
 [1.22.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.21.0...v1.22.0
