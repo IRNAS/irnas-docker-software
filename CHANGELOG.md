@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+No changes in this release, the Docker images were rebuilt to use the latest East version.
+
 ## [1.24.1] - 2026-09-15
 
 ### Fixed
@@ -278,7 +280,6 @@ All below changes are related to the ncs-zephyr Docker image:
 - Vanilla Zephyr Dockerfiles and publish workflows.
 
 [Unreleased]: https://github.com/IRNAS/irnas-docker-software/compare/v1.24.1...HEAD
-
 [1.24.1]: https://github.com/IRNAS/irnas-docker-software/compare/v1.24.0...v1.24.1
 [1.24.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.23.0...v1.24.0
 [1.23.0]: https://github.com/IRNAS/irnas-docker-software/compare/v1.22.0...v1.23.0
